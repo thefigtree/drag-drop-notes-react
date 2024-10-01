@@ -26,6 +26,7 @@ const NoteCard = ({ note }) => {
     mouseStartPos.y = e.clientY;
 
     document.addEventListener("mousemove", mouseMove);
+    document.addEventListener("mouseup", mouseUp);
   };
 
   const mouseMove = (e) => {
@@ -34,10 +35,18 @@ const NoteCard = ({ note }) => {
       y: mouseStartPos.y - e.clientY,
     };
 
-    console.log("mouseMoveDir", mouseMoveDir);
-
     mouseStartPos.x = e.clientX;
     mouseStartPos.y = e.clientY;
+
+    setPosition({
+      x: cardRef.current.offsetLeft - mouseMoveDir.x,
+      y: cardRef.current.offsetTop - mouseMoveDir.y,
+    });
+  };
+
+  const mouseUp = () => {
+    document.removeEventListener("mousemove", mouseMove);
+    document.removeEventListener("mouseup", mouseUp);
   };
 
   return (
